@@ -1,0 +1,15 @@
+{
+    "name": "user/boq-master-backend",
+    "autoload": {
+        "psr-4": {
+            "User\\BoqMasterBackend\\": "Models/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yasith Eranda Yapa Amarasekara",
+            "email": "ya794120@gmail.com"
+        }
+    ],
+    "require": {}
+}
