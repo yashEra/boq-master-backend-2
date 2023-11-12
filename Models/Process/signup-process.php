@@ -31,7 +31,10 @@ switch ($method) {
     case 'POST':
          $person = new Person($userName, $firstName, $lastName, $email, $phoneNumber, $accountType, $professionalType, $password, $retypePassword);
          $person->signup();
-
+         if (!$this->validatePhoneNumber($this->phone)) {
+            echo "Invalid phone number.";
+            return; 
+        }
 
         if ($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Registration successfully.'];
