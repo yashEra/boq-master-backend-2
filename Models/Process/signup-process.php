@@ -23,11 +23,13 @@ $email = $data['email'];
 $phoneNumber = $data['phoneNumber'];
 $accountType = $data['accountType'];
 $password = $data['password'];
+$professionalType = $data['professionalType'];
+$retypePassword = $data['retypePassword'];
 
 
 switch ($method) {
     case 'POST':
-         $person = new Person($userName, $firstName, $lastName, $email, $phoneNumber, $accountType, $password);
+         $person = new Person($userName, $firstName, $lastName, $email, $phoneNumber, $accountType, $professionalType, $password, $retypePassword);
          $person->signup();
 
 

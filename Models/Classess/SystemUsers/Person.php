@@ -19,8 +19,9 @@ class Person
     private $phone;
     private $protype;
     private $password;
+    private $retypePassword;
 
-    public function __construct($username, $fname, $lname, $email, $phone, $utype, $password)
+    public function __construct($username, $fname, $lname, $email, $phone, $utype, $protype,$password, $retypePassword)
     {
         $this->username = $username;
         $this->fname = $fname;
@@ -28,7 +29,9 @@ class Person
         $this->email = $email;
         $this->phone = $phone;
         $this->utype = $utype;
+        $this->protype = $protype;
         $this->password = $password;
+        $this->retypePassword = $retypePassword;
     }
     
 
@@ -37,7 +40,7 @@ class Person
         $dbcon = new DbConnector();
         $conn = $dbcon->getConnection();
     
-        $sql = "INSERT INTO user(userName, firstName, lastName, email, phoneNumber, accountType, password) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO user(userName, firstName, lastName, email, phoneNumber, accountType, proType, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     
         try {
             $pstmt = $conn->prepare($sql);
@@ -47,7 +50,8 @@ class Person
             $pstmt->bindParam(4, $this->email);
             $pstmt->bindParam(5, $this->phone);
             $pstmt->bindParam(6, $this->utype);
-            $pstmt->bindParam(7, $this->password);
+            $pstmt->bindParam(7, $this->protype);
+            $pstmt->bindParam(8, $this->password);
     
             if ($pstmt->execute()) {
                 echo "Success";
