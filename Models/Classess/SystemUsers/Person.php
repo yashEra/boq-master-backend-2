@@ -1,11 +1,5 @@
 <?php
 require_once '../../config/DbConnector.php';
-// include '../../../config/DbConnector.php';
-
-// use config\DbConnector;
-
-// use PDO;
-// use PDOException;
 
 class Person
 {
@@ -21,7 +15,7 @@ class Person
     private $password;
     private $retypePassword;
 
-    public function __construct($username, $fname, $lname, $email, $phone, $utype, $protype,$password, $retypePassword)
+    public function __construct($username, $fname, $lname, $email, $phone, $utype, $protype, $password, $retypePassword)
     {
         $this->username = $username;
         $this->fname = $fname;
@@ -33,15 +27,23 @@ class Person
         $this->password = $password;
         $this->retypePassword = $retypePassword;
     }
-    
 
     public function signup()
     {
         $dbcon = new DbConnector();
         $conn = $dbcon->getConnection();
-    
+
+        // Check if passwords match
+        if ($this->password !== $this->retypePassword) {
+            echo "Passwords do not match.";
+            return; // Stop execution if passwords do not match
+        }
+
+        // Hash the password before storing it in the database
+        $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+
         $sql = "INSERT INTO user(userName, firstName, lastName, email, phoneNumber, accountType, proType, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-    
+
         try {
             $pstmt = $conn->prepare($sql);
             $pstmt->bindParam(1, $this->username);
@@ -51,8 +53,8 @@ class Person
             $pstmt->bindParam(5, $this->phone);
             $pstmt->bindParam(6, $this->utype);
             $pstmt->bindParam(7, $this->protype);
-            $pstmt->bindParam(8, $this->password);
-    
+            $pstmt->bindParam(8, $hashedPassword); // Use hashed password
+
             if ($pstmt->execute()) {
                 echo "Success";
             } else {
@@ -62,5 +64,9 @@ class Person
             echo "Error: " . $e->getMessage();
         }
     }
-    
 }
+
+// Example usage:
+// $person = new Person("username", "John", "Doe", "john.doe@example.com", "123456789", "client", "", "password", "password");
+// $person->signup();
+?>
