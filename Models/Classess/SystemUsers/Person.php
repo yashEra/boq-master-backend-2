@@ -66,7 +66,4 @@ class Person
     }
 }
 
-// Example usage:
-// $person = new Person("username", "John", "Doe", "john.doe@example.com", "123456789", "client", "", "password", "password");
-// $person->signup();
 ?>
