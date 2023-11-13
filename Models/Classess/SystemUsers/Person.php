@@ -37,6 +37,11 @@ class Person
         return preg_match("/^[0-9]{10}$/", $phone);
     }
 
+    private function validatePassword($password,$retypePassword)
+    {
+        return $password == $retypePassword;
+    }
+
     public function signup()
     {
         $dbcon = new DbConnector();
@@ -45,15 +50,15 @@ class Person
         $sanitizedEmail = $this->sanitizeEmail($this->email);
 
 
-        if ($this->password !== $this->retypePassword) {
-            echo "Passwords do not match.";
-            return;
-        }
-
+        // if ($this->password !== $this->retypePassword) {
+        //     echo "Passwords do not match.";
+        //     return;
+        // }
 
         $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+
         if ($this->utype == "professional") {
-            
+
             $sql = "INSERT INTO professional(userName, firstName, lastName, email, phoneNumber, accountType, proType, password) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
             try {
@@ -85,7 +90,6 @@ class Person
                 $pstmt->bindParam(4, $sanitizedEmail);
                 $pstmt->bindParam(5, $this->phone);
                 $pstmt->bindParam(6, $this->utype);
-                // $pstmt->bindParam(7, $this->protype);
                 $pstmt->bindParam(7, $hashedPassword);
 
                 if ($pstmt->execute()) {

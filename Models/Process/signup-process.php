@@ -27,18 +27,14 @@ $professionalType = $data['professionalType'];
 $retypePassword = $data['retypePassword'];
 
 
+
 switch ($method) {
     case 'POST':
          $person = new Person($userName, $firstName, $lastName, $email, $phoneNumber, $accountType, $professionalType, $password, $retypePassword);
          $person->signup();
-         if (!$this->validatePhoneNumber($this->phone)) {
-            echo "Invalid phone number.";
-            return; 
-        }
 
         if ($stmt->execute()) {
             $response = ['status' => 1, 'message' => 'Registration successfully.'];
-            // header('Location: http://localhost:80/boq_master/src/App.js')
         } else {
             $response = ['status' => 0, 'message' => 'Failed to Register.'];
         }

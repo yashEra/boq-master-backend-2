@@ -50,6 +50,7 @@ $response = array(
   "bindingWires" => $columnObj->getBindingWiresQuantityForColumn(),
   "cost" => $columnObj->getTotalCostForColumn(),
   "rs" => $columnObj->getReinforcementPriceForColumn(),
+  "unit" => $length,
 
 );
 

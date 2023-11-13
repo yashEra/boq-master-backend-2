@@ -9,25 +9,25 @@ use PDOException;
 
 
 
-class Windows{
+class Doors{
 
     private $id;
-    private $size;
+    private $material;
     private $qt;
 
-    public function __construct($id, $size, $qt)
+    public function __construct($id, $material, $qt)
     {
-        $this->size = $size;
+        $this->material = $material;
         $this->id = $id;
         $this->qt = $qt;
     }
 
-public function getPriceOfwindow()
+public function getPriceOfDoor()
 {
     $dbobj = new DbConnect();
     $conn = $dbobj->getConnection();
 
-    $sql = "SELECT * FROM window RIGHT JOIN windows_sizes ON window.id = windows_sizes.type_id WHERE window.id='$this->id' AND size = '$this->size'";
+    $sql = "SELECT * FROM door RIGHT JOIN door_sizes ON door.id = door_sizes.type_id WHERE door.id='$this->id' AND material = '$this->material'";
 
     $pstmt = $conn->prepare($sql);
     $pstmt->execute();
@@ -41,12 +41,12 @@ public function getPriceOfwindow()
     }
 }
 
-public function getAreaOfwindow()
+public function getAreaOfDoor()
 {
     $dbobj = new DbConnect();
     $conn = $dbobj->getConnection();
 
-    $sql = "SELECT * FROM window RIGHT JOIN windows_sizes ON window.id = windows_sizes.type_id WHERE window.id='$this->id' AND size = '$this->size'";
+    $sql = "SELECT * FROM door RIGHT JOIN door_sizes ON door.id = door_sizes.type_id WHERE door.id='$this->id' AND material = '$this->material'";
 
     $pstmt = $conn->prepare($sql);
     $pstmt->execute();
@@ -60,12 +60,12 @@ public function getAreaOfwindow()
     }
 }
 
-public function areaOfWindows(){
-    return $this->getAreaOfwindow() * $this->qt;
+public function areaOfDoor(){
+    return $this->getAreaOfdoor() * $this->qt;
 }
 
-public function priceOfWindows(){
-    return $this->getPriceOfwindow() * $this->qt;
+public function priceOfDoor(){
+    return $this->getPriceOfDoor() * $this->qt;
 }
 
 }
