@@ -12,6 +12,9 @@ use RowMaterials\Cement;
 use RowMaterials\Matel;
 use RowMaterials\RainforceentBars;
 use RowMaterials\Sand;
+include_once 'UnitRates.php';
+
+use RowMaterials\UnitRates;
 
 class Slabs
 {
@@ -117,10 +120,18 @@ class Slabs
 
     }
 
-    public function getTotalCostForSlab()
+    public function getTotalCostForConcrete()
     {
-        $totalCost = $this->getCementPriceForSlab()+$this->getSandPriceForSlab()+$this->getMetalPriceForSlab()+$this->getReinforcementPriceForSlab()+$this->getBindingWiresPriceForSlab();
+        $unitRatesObj = new UnitRates();
+        $totalConCost = $unitRatesObj->getRateOfConcrete()*$this->getVolOfSlab();
       
-        return $totalCost;
+        return $totalConCost;
+    }
+    public function getTotalCostForFrameWork()
+    {
+        $unitRatesObj = new UnitRates();
+        $totalFrameCost = $unitRatesObj->getRateOFrameWork()*$this->getSqOfSlab();
+      
+        return $totalFrameCost;
     }
 }

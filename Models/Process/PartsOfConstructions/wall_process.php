@@ -1,7 +1,4 @@
 <?php
-
-// use PartsOfConstructions\Walls;
-
 header("Content-Type: application/json");
 
 header("Access-Control-Allow-Origin: http://localhost:3000");
@@ -15,17 +12,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 require_once '../../Classess/PartsOfConstructions/Walls.php';
+require_once '../../Classess/PartsOfConstructions/UnitRates.php';
 
+use RowMaterials\UnitRates;
 use PartsOfConstructions\Walls;
 
 // Get the posted data
 $data = json_decode(file_get_contents("php://input"));
 
-// Example: Accessing the "height", "length", and "unit" fields
-// $height = $data->height;
-// $length = $data->length;
+
 $unit = $data->unit;
 $brickTypes = $data->brickTypes;
+$type=$data->brickTypeOption;
+
+
+if ($brickTypes =='cementBrick') {
+  $type = 'N/A';
+}
 
 if($unit ==="ft"){
 
@@ -37,20 +40,20 @@ if($unit ==="ft"){
   $length = $data->length;
 }
 
-$wallobj = new Walls($height, $length, $brickTypes);
+// $rate = 999;
+
+$wallobj = new Walls($height, $length, $brickTypes, $type);
+$ratesobj = new UnitRates();
 
 $noOfBricks = $wallobj->getBricksQuantity();
 
 // Process the data or perform necessary actions
 $response = array(
   "message" => "Data received successfully",
-  "numberOfBricks" => $wallobj->getBricksQuantity(),
-  "length" => $length,
-  "unit" => $unit,
-  "brickType" => $brickTypes,
-  "CementKg" =>$wallobj->getcementQuantity(),
-  "Sand" =>$wallobj->getSandQuantity(),
-  "cost" => $wallobj->getWallCost()
+  "description" => $wallobj->getWallDec(),
+  "unitRate" => $ratesobj->getRateOfwall($brickTypes, $type),
+  "area" =>$wallobj->getWallArea(),
+  "cost" => $wallobj->getWallCost(),
 );
 
 

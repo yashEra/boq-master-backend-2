@@ -5,6 +5,10 @@ include_once 'Bricks.php';
 
 use RowMaterials\Bricks;
 
+include_once 'UnitRates.php';
+
+use RowMaterials\UnitRates;
+
 // $bricks = new Bricks();
 
 // include './DbConnector.php';
@@ -30,15 +34,17 @@ class Walls
     private $sand= 100;
     private $cementPrice = 3000/50;
     private $sandPrice= 100;//for 1 unit
+    private $type;
 
 
 
 
-    public function __construct($height, $length, $typeOfBrick)
+    public function __construct($height, $length, $typeOfBrick, $type)
     {
         $this->height = $height;
         $this->length = $length;
         $this->typeOfBrick = $typeOfBrick;
+        $this->type=$type;
     }
 
     public function getWallArea()
@@ -46,6 +52,14 @@ class Walls
         $wallArea = $this->height * $this->length;
 
         return $wallArea;
+    }
+
+    public function getWallDec()
+    {
+        $unitRatesObj = new UnitRates();
+        $wallDes = $unitRatesObj->getDecOfwall($this->typeOfBrick,$this->type);
+
+        return $wallDes;
     }
 
     public function getBricksQuantity()
@@ -88,23 +102,32 @@ class Walls
 WALLCOST
 **************************************************************************************** */
 
+    // public function getWallCost()
+    // {
+    //     $bricksObj = new Bricks();
+    //     $cost2 = $bricksObj->getPriceOfClayBrick();
+
+    //     $cost = 0;
+    //     $sandPrice = $this->sandPrice *$this->getWallArea()*$cost2;
+    //     $cement = $this->cementPrice *$this->getWallArea();
+
+    //     if ($this->typeOfBrick === "Clay Brick") {
+    //         $cost = (($this->numberOfClayBricks *  $this->getWallArea()) *  $this->clayBrickPrice) + ($sandPrice)+ ($cement);
+    //     }else{
+
+    //         $cost = (($this->numberOfCementBricks *  $this->getWallArea()) *  $this->clayBrickPrice) + ($sandPrice)+ ($cement);
+    //     }
+    //     return $cost;
+    // }
+
     public function getWallCost()
     {
-        $bricksObj = new Bricks();
-        $cost2 = $bricksObj->getPriceOfClayBrick();
+        $unitRatesObj = new UnitRates();
+        $cost = $unitRatesObj->getRateOfwall($this->typeOfBrick, $this->type);
 
-        $cost = 0;
-        $sandPrice = $this->sandPrice *$this->getWallArea()*$cost2;
-        $cement = $this->cementPrice *$this->getWallArea();
-
-        if ($this->typeOfBrick === "Clay Brick") {
-            $cost = (($this->numberOfClayBricks *  $this->getWallArea()) *  $this->clayBrickPrice) + ($sandPrice)+ ($cement);
-        }else{
-
-            $cost = (($this->numberOfCementBricks *  $this->getWallArea()) *  $this->clayBrickPrice) + ($sandPrice)+ ($cement);
-        }
-        return $cost;
+        return $this->getWallArea()*$cost;
     }
+
 
 
     /***************************************************************************************** 

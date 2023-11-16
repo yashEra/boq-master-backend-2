@@ -17,6 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 require_once '../../Classess/PartsOfConstructions/Slabs.php';
 use classes\Slabs;
 
+require_once '../../Classess/PartsOfConstructions/UnitRates.php';
+
+use RowMaterials\UnitRates;
+
 // Get the posted data
 $data = json_decode(file_get_contents("php://input"));
 
@@ -33,23 +37,27 @@ if($unit ==="ft"){
   
   $length = $data->length;
   $width = $data->width;
-  $thickness = $data->thickness;
-
-  
+  $thickness = $data->thickness; 
 }
 
 $slabobj = new Slabs($length, $width, $thickness);
+$unitRateobj = new UnitRates();
 
-// Process the data or perform necessary actions
 $response = array(
   "message" => "Data received successfully",
-  "matel" => $slabobj->getMetalQuantityForSlab(),
-  "cement" => $slabobj->getCementQuantityForSlab(),
-  "sand" => $slabobj->getSandQuantityForSlab(),
-  "rainforcementBars" => $slabobj->getReinforcementQuantityForSlab(),
-  "bindingWires" => $slabobj->getBindingWiresQuantityForSlab(),
-  "cost" => $slabobj->getTotalCostForSlab(),
-  "rs" => $slabobj->getReinforcementPriceForSlab(),
+  "cCost" => $slabobj->getTotalCostForConcrete(),
+  "fCost" => $slabobj->getTotalCostForFrameWork(),
+  "area" => $slabobj->getSqOfSlab(),
+  "volume" => $slabobj->getVolOfSlab(),
+  "descriptionC" => $unitRateobj->getDecOConcrete(),
+  "descriptionF" => $unitRateobj->getDecOFrameWork(),
+  "unitC" => $unitRateobj->getRateOfConcrete(),
+  "unitF" => $unitRateobj->getRateOFrameWork(),
+  // "volume" => $slabobj->getVolOfSlab(),
+  
+  // "rainforcementBars" => $slabobj->getReinforcementQuantityForSlab(),
+  // "bindingWires" => $slabobj->getBindingWiresQuantityForSlab(),
+  // "cost" => $slabobj->getTotalCostForSlab(),
 
 );
 
