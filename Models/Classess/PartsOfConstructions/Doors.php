@@ -14,6 +14,7 @@ class Doors{
     private $id;
     private $material;
     private $qt;
+    // private $area;
 
     public function __construct($id, $material, $qt)
     {
@@ -35,6 +36,7 @@ public function getPriceOfDoor()
     $result = $pstmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result !== false) {
+        // $this->area = $result['area'];
         return $result['price'];
     } else {
         return null;

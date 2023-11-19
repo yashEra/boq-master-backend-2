@@ -24,6 +24,6 @@ $door = new Doors($doorTypeId, $material, $quantity);
 $price = $door->priceOfDoor();
 $area = $door->areaOfDoor();
 
-$response = array('status' => '1', 'area' => $doorTypeId, 'doorType' => $doorType, 'quantity' => $quantity, 'material' => $material, 'price' => $price);
+$response = array('status' => '1', 'area' => $area, 'doorType' => $doorType, 'quantity' => $quantity, 'material' => $material, 'price' => $price);
 echo json_encode($response);
 ?>
