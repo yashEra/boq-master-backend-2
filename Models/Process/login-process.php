@@ -27,7 +27,7 @@ $userName = $data['userName'];
 $password = $data['password'];
 
 try {
-    $stmt = $conn->prepare("SELECT id FROM user WHERE userName = :userName AND password = :password");
+    $stmt = $conn->prepare("SELECT id FROM client WHERE userName = :userName AND password = :password");
     $stmt->bindParam(':userName', $userName);
     $stmt->bindParam(':password', $password);
     $stmt->execute();

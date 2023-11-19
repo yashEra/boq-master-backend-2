@@ -26,7 +26,7 @@ $brickTypes = $data->brickTypes;
 $type=$data->brickTypeOption;
 
 
-if ($brickTypes =='cementBrick') {
+if ($brickTypes =='cementBrick' || $brickTypes =='Cement Brick') {
   $type = 'N/A';
 }
 
@@ -39,9 +39,9 @@ if($unit ==="ft"){
   $height = $data->height;
   $length = $data->length;
 }
-
+$fwallUnitRate = 1000;
 // $rate = 999;
-
+// echo $brickTypes;
 $wallobj = new Walls($height, $length, $brickTypes, $type);
 $ratesobj = new UnitRates();
 
@@ -53,6 +53,7 @@ $response = array(
   "description" => $wallobj->getWallDec(),
   "unitRate" => $ratesobj->getRateOfwall($brickTypes, $type),
   "area" =>$wallobj->getWallArea(),
+  "wallFinishingCost" =>$wallobj->getWallArea()*$fwallUnitRate,
   "cost" => $wallobj->getWallCost(),
 );
 
