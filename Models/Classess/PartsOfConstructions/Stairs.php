@@ -7,12 +7,14 @@ include_once 'Matel.php';
 include_once 'Sand.php';
 include_once 'RainforceentBars.php';
 include_once 'BindingWires.php';
+include_once 'UnitRates.php';
 
 use RowMaterials\BindingWires;
 use RowMaterials\Cement;
 use RowMaterials\Matel;
 use RowMaterials\Sand;
 use RowMaterials\RainforceentBars;
+use RowMaterials\UnitRates;
 
 class Stairs
 
@@ -94,6 +96,31 @@ class Stairs
         return $bindingWires;
     }
 /***************************************** COST CALCULATIONS **************************************** */
+
+
+
+
+
+public function concreteRate() {
+    $urates = new UnitRates();
+    
+    return $urates->getRateOfConcrete()*($this->getStairsTotVol()+$this->getStairsCaseVol());
+}
+public function rainforcementRate() {
+    $urates = new UnitRates();
+    
+    return $urates->getRatesOfRainforcement()*($this->getStairsTotVol()+$this->getStairsCaseVol());
+}
+public function formworkRate() {
+    $urates = new UnitRates();
+    
+    return $urates->getRatesOfFormworks()*($this->getStairsCaseArea());
+}
+
+
+
+
+
     public function getCementCost()
     {
         $cementObj = new Cement();

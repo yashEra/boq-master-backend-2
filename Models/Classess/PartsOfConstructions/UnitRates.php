@@ -139,11 +139,72 @@ public function getDecOFrameWork()
     }
 }
 
-//Column
+//Concrete One
 
+public function getRatesOfConcreteOne()
+{
+    $dbobj = new DbConnect();
+    $conn = $dbobj->getConnection();
 
+    $sql = "SELECT material_price FROM raw_materials WHERE material_id = (SELECT rate_id FROM stairs WHERE id = 1);";
+
+    $pstmt = $conn->prepare($sql);
+    $pstmt->execute();
+
+    $result = $pstmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result !== false) {
+        return $result['material_price'];
+        } else {
+        return null;
+    }
+}
+//Rainforcement
+
+public function getRatesOfRainforcement()
+{
+    $dbobj = new DbConnect();
+    $conn = $dbobj->getConnection();
+
+    $sql = "SELECT material_price FROM raw_materials WHERE material_id = (SELECT rate_id FROM stairs WHERE id = 2);";
+
+    $pstmt = $conn->prepare($sql);
+    $pstmt->execute();
+
+    $result = $pstmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result !== false) {
+        return $result['material_price'];
+        } else {
+        return null;
+    }
 
 }
+//Formworks
+
+public function getRatesOfFormworks()
+{
+    $dbobj = new DbConnect();
+    $conn = $dbobj->getConnection();
+
+    $sql = "SELECT material_price FROM raw_materials WHERE material_id = (SELECT rate_id FROM stairs WHERE id = 3);";
+
+    $pstmt = $conn->prepare($sql);
+    $pstmt->execute();
+
+    $result = $pstmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result !== false) {
+        return $result['material_price'];
+        } else {
+        return null;
+    }
+}
+}
+
+
+
+
 
 
 use PDOException;

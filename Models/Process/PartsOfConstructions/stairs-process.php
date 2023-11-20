@@ -1,8 +1,8 @@
 <?php
 header("Content-Type: application/json");
 
-// Allow requests from your React app's origin
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Update with your React app's URL
+// Allow requests from React app's origin
+header("Access-Control-Allow-Origin: http://localhost:3000"); // Update with React app's URL
 
 // Allow specific headers and methods
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
@@ -16,6 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
 require_once '../../Classess/PartsOfConstructions/Stairs.php';
 use classes\Stairs;
+require_once '../../Classess/PartsOfConstructions/UnitRates.php';
+
+use RowMaterials\UnitRates;
 
 // Get the posted data
 $data = json_decode(file_get_contents("php://input"));
@@ -48,16 +51,19 @@ if($unit ==="ft"){
 }
 
 $stairsobj = new Stairs($thickness, $length, $width, $riser, $thread, $noOfSteps);
+$unitRateobj = new UnitRates();
 
-// Process the data or perform necessary actions
 $response = array(
   "message" => "Data received successfully",
-  "matel" => $length,
-  "cement" => $stairsobj->getCement(),
-  "sand" => $stairsobj->getSand(),
-  "rainforcementBars" => $stairsobj->getRainforcementBars(),
-  "bindingWires" => $stairsobj->getCement(),
-  "cost" => $stairsobj->getStairesTotalCost(),
+  "concrete" => $stairsobj->concreteRate(),
+  "reinforcement" => $stairsobj->rainforcementRate(),
+  "formworks" => $stairsobj->formworkRate(),
+  "concreteQuantity" => ($stairsobj->getStairsTotVol()+$stairsobj->getStairsCaseVol()),
+  "reinforcementQuantity" => ($stairsobj->getStairsTotVol()+$stairsobj->getStairsCaseVol()),
+  "formworksQuantity" => $stairsobj->getStairsCaseArea(),
+  "concreteUnitPrice" => $unitRateobj->getRatesOfFormworks(),
+  "reinforcementUnitPrice" => $unitRateobj->getRatesOfRainforcement(),
+  "formworksUnitPrice" => $unitRateobj->getRatesOfFormworks(),
 
 );
 

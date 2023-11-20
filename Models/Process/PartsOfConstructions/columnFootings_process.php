@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
   exit();
 }
 
-require_once '../../Classess/PartsOfConstructions/Columns.php';
-use classes\Columns;
+require_once '../../Classess/PartsOfConstructions/ColumnFootings.php';
+use classes\ColumnFootings;
 
 require_once '../../Classess/PartsOfConstructions/UnitRates.php';
 
@@ -25,7 +25,6 @@ use RowMaterials\UnitRates;
 $data = json_decode(file_get_contents("php://input"));
 
 $unit = $data->unit;
-$no_of_columns=$data->noOfColumns;
 
 if($unit ==="ft"){
 
@@ -41,17 +40,17 @@ if($unit ==="ft"){
   $height = $data->height; 
 }
 
-$cobj = new Columns($length, $width, $height, $no_of_columns);
+$cfootingobj = new ColumnFootings($length, $width, $height);
 $unitRateobj = new UnitRates();
 
 $response = array(
     "message" => "Data received successfully",
-    "concrete" => $cobj->getTotalCostForConcrete(),
-    "reinforcement" => $cobj->getTotalCostForReinforcement(),
-    "formworks" => $cobj->getTotalCostForFrameWork(),
-    "concreteQuantity" => $cobj->getVolOfColumn(),
-    "reinforcementQuantity" => $cobj->getVolOfColumn(),
-    "formworksQuantity" => $cobj->getVolOfColumn(),
+    "concrete" => $cfootingobj->getTotalCostForConcrete(),
+    "reinforcement" => $cfootingobj->getTotalCostForReinforcement(),
+    "formworks" => $cfootingobj->getTotalCostForFrameWork(),
+    "concreteQuantity" => $cfootingobj->getVolOfFootings(),
+    "reinforcementQuantity" => $cfootingobj->getVolOfFootings(),
+    "formworksQuantity" => $cfootingobj->getVolOfFootings(),
     "concreteUnitPrice" => $unitRateobj->getRatesOfConcreteOne(),
     "reinforcementUnitPrice" => $unitRateobj->getRatesOfRainforcement(),
     "formworksUnitPrice" => $unitRateobj->getRatesOfFormworks(),
