@@ -9,13 +9,13 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 $data = json_decode(file_get_contents("php://input"));
 
-$windowTypeId = isset($_POST['windowTypeId']) ? $_POST['windowTypeId'] : null;
+// $windowTypeId = isset($_POST['windowTypeId']) ? $_POST['windowTypeId'] : null;
 
 $windowTypeId = isset($data->windowTypeId) ? $data->windowTypeId : null;
 
 
 // $id = $windowTypeId;
-$windowType = $data->windowType;
+// $windowType = $data->windowType;
 $size = $data->size;
 $quantity = $data->quantity;
 
@@ -24,6 +24,6 @@ $window = new Windows($windowTypeId, $size, $quantity);
 $price = $window->priceOfWindows();
 $area = $window->areaOfWindows();
 
-$response = array('status' => '1', 'area' => $area, 'windowType' => $windowType, 'quantity' => $quantity, 'size' => $size, 'price' => $price);
+$response = array('status' => '1', 'area' => $area, 'quantity' => $quantity, 'size' => $size, 'price' => $price);
 echo json_encode($response);
 ?>

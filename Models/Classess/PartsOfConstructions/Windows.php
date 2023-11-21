@@ -27,7 +27,7 @@ public function getPriceOfwindow()
     $dbobj = new DbConnect();
     $conn = $dbobj->getConnection();
 
-    $sql = "SELECT * FROM window RIGHT JOIN windows_sizes ON window.id = windows_sizes.type_id WHERE window.id='$this->id' AND size = '$this->size'";
+    $sql = "SELECT * FROM windows_sizes WHERE type_id=$this->id AND size = '$this->size'";
 
     $pstmt = $conn->prepare($sql);
     $pstmt->execute();
@@ -46,8 +46,8 @@ public function getAreaOfwindow()
     $dbobj = new DbConnect();
     $conn = $dbobj->getConnection();
 
-    $sql = "SELECT * FROM window RIGHT JOIN windows_sizes ON window.id = windows_sizes.type_id WHERE window.id='$this->id' AND size = '$this->size'";
-
+    $sql = "SELECT * FROM windows_sizes WHERE type_id=$this->id AND size = '$this->size'";
+   
     $pstmt = $conn->prepare($sql);
     $pstmt->execute();
 
