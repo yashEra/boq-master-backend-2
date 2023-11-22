@@ -1,23 +1,21 @@
 <?php
 header("Content-Type: application/json");
-
-// Allow requests from your React app's origin
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Update with your React app's URL
-
-// Allow specific headers and methods
+header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 
-// Check for preflight (OPTIONS) request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
   http_response_code(204);
   exit();
 }
 
 require_once '../../Classess/PartsOfConstructions/Tiebeam.php';
-use classes\Tiebeam;
+use classes\Tiebeams;
 
-// Get the posted data
+require_once '../../Classess/PartsOfConstructions/UnitRates.php';
+
+use RowMaterials\UnitRates;
+
 $data = json_decode(file_get_contents("php://input"));
 
 $unit = $data->unit;
@@ -39,18 +37,21 @@ if($unit ==="ft"){
   
 }
 
-$tiebeamObj = new Tiebeam($length, $width, $height, $noOfTiebeams);
+$tiebeamObj = new Tiebeams($length, $width, $height, $noOfTiebeams);
+$unitRateobj = new UnitRates();
 
 // Process the data or perform necessary actions
 $response = array(
   "message" => "Data received successfully",
-  "matel" => $tiebeamObj->getMetalQuantityForTiebeam(),
-  "cement" => $tiebeamObj->getCementQuantityForTiebeam(),
-  "sand" => $tiebeamObj->getSandQuantityForTiebeam(),
-  "rainforcementBars" => $tiebeamObj->getReinforcementQuantityForTiebeam(),
-  "bindingWires" => $tiebeamObj->getBindingWiresQuantityForTiebeam(),
-  "cost" => $tiebeamObj->getTotalCostForTiebeam(),
-  "rs" => $tiebeamObj->getReinforcementPriceForTiebeam(),
+  "concrete" => $tiebeamObj->getTotalCostForConcrete(),
+  "reinforcement" => $tiebeamObj->getTotalCostForReinforcement(),
+  "formworks" => $tiebeamObj->getTotalCostForFrameWork(),
+  "concreteQuantity" => $tiebeamObj->getVolOfTiebeams(),
+  "reinforcementQuantity" => $tiebeamObj->getVolOfTiebeams(),
+  "formworksQuantity" => $tiebeamObj->getVolOfTiebeams(),
+  "concreteUnitPrice" => $unitRateobj->getRatesOfConcreteOne(),
+  "reinforcementUnitPrice" => $unitRateobj->getRatesOfRainforcement(),
+  "formworksUnitPrice" => $unitRateobj->getRatesOfFormworks(),
 
 );
 
