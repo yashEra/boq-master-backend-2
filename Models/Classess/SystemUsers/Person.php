@@ -73,7 +73,7 @@ class Person
                 $pstmt->bindParam(8, $hashedPassword);
 
                 if ($pstmt->execute()) {
-                    echo "Success";
+                    return "processSuccess";
                 } else {
                     echo "Failed to insert data.";
                 }
@@ -93,7 +93,7 @@ class Person
                 $pstmt->bindParam(7, $hashedPassword);
 
                 if ($pstmt->execute()) {
-                    echo "Success";
+                    return "processSuccess";
                 } else {
                     echo "Failed to insert data.";
                 }

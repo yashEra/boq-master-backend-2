@@ -31,9 +31,9 @@ $retypePassword = $data['retypePassword'];
 switch ($method) {
     case 'POST':
          $person = new Person($userName, $firstName, $lastName, $email, $phoneNumber, $accountType, $professionalType, $password, $retypePassword);
-         $person->signup();
+         $status = $person->signup();
 
-        if ($stmt->execute()) {
+        if ($status =="processSuccess") {
             $response = ['status' => 1, 'message' => 'Registration successfully.'];
         } else {
             $response = ['status' => 0, 'message' => 'Failed to Register.'];

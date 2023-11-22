@@ -15,9 +15,9 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$architectId = $_GET['id'];
+$id = $_GET['pro_id'];
 
-$sql = "SELECT * FROM professional WHERE id = $architectId";
+$sql = "SELECT * FROM portfolio WHERE pro_id = $id";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

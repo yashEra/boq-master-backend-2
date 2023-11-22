@@ -15,9 +15,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$architectId = $_GET['id'];
+// Assuming the parameter is passed through the URL as 'id'
+$projectId = $_GET['id'];
 
-$sql = "SELECT * FROM professional WHERE id = $architectId";
+$sql = "SELECT * FROM professional WHERE id = $projectId";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
