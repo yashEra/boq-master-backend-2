@@ -37,7 +37,7 @@ try {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result) {
-        $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType']];
+        $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType'], 'type' => 'professional'];
     } else {
         // Check in the client table if not found in the professional table
         $stmt = $conn->prepare("SELECT id, 'client' as accountType FROM client WHERE userName = :userName AND password = :password");
@@ -47,7 +47,7 @@ try {
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($result) {
-            $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType']];
+            $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType'], 'type' => 'client'];
         } else {
             $response = ['success' => false, 'error' => $userName, 'error2' => $password];
         }
