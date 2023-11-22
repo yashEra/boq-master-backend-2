@@ -8,8 +8,6 @@ header("Access-Control-Allow-Methods: *");
 
 require_once '../Classess/SystemUsers/Person.php';
 
-echo 'process';
-
 $data = json_decode(file_get_contents("php://input"), true);
 
 
@@ -34,7 +32,7 @@ switch ($method) {
          $status = $person->signup();
 
         if ($status =="processSuccess") {
-            $response = ['status' => 1, 'message' => 'Registration successfully.'];
+            $response = ['success' => true, 'message' => 'Registration successfully.'];
         } else {
             $response = ['status' => 0, 'message' => 'Failed to Register.'];
         }
