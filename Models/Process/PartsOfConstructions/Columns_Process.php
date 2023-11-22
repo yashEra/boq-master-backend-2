@@ -27,10 +27,10 @@ $data = json_decode(file_get_contents("php://input"));
 $unit = $data->unit;
 $no_of_columns=$data->noOfColumns;
 
-if($unit ==="ft"){
+if($unit ==="feet"){
 
-  $length = ($data->Length)*0.3048;
-  $width = ($data->Width)*0.3048;
+  $length = ($data->length)*0.3048;
+  $width = ($data->width)*0.3048;
   $height = ($data->height)*0.3048;
 
 

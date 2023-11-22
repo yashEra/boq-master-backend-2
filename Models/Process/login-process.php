@@ -1,5 +1,4 @@
 <?php
-// Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -12,33 +11,46 @@ require_once '../../config/DbConnector.php';
 
 $objDb = new DbConnector;
 $conn = $objDb->getConnection();
-
-// Assuming data is sent in JSON format
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Check if required fields are provided
-if (!isset($data['userName']) || !isset($data['password'])) {
-    $response = ['success' => false, 'error' => 'Missing username or password'];
-    echo json_encode($response);
-    exit;
+// if (!isset($data['userName']) || !isset($data['password'])) {
+//     $response = ['success' => false, 'error' => 'Missing username or password'];
+//     echo json_encode($response);
+//     exit;
+// }
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $userName = isset($_POST["userName"]) ? $_POST["userName"] : '';
+    $password = isset($_POST["password"]) ? $_POST["password"] : '';
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+// $userName = $data['userName'];
+// $password = $data['password'];
 }
 
-$userName = $data['userName'];
-$password = $data['password'];
-
 try {
-    $stmt = $conn->prepare("SELECT id FROM client WHERE userName = :userName AND password = :password");
+    // Check in the professional table
+    $stmt = $conn->prepare("SELECT id, 'professional' as accountType FROM professional WHERE userName = :userName AND password = :password");
     $stmt->bindParam(':userName', $userName);
     $stmt->bindParam(':password', $password);
     $stmt->execute();
-
-    // Fetch the result as an associative array
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result) {
-        $response = ['success' => true, 'id' => $result['id']];
+        $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType']];
     } else {
-        $response = ['success' => false, 'error' => 'Invalid username or password'];
+        // Check in the client table if not found in the professional table
+        $stmt = $conn->prepare("SELECT id, 'client' as accountType FROM client WHERE userName = :userName AND password = :password");
+        $stmt->bindParam(':userName', $userName);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($result) {
+            $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType']];
+        } else {
+            $response = ['success' => false, 'error' => $userName, 'error2' => $password];
+        }
     }
 
     echo json_encode($response);
