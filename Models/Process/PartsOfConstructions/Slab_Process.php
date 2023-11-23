@@ -26,7 +26,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 $unit = $data->unit;
 
-if($unit ==="ft"){
+if($unit ==="feet"){
 
   $length = ($data->length)*0.3048;
   $width = ($data->width)*0.3048;
@@ -45,19 +45,16 @@ $unitRateobj = new UnitRates();
 
 $response = array(
   "message" => "Data received successfully",
-  "cCost" => $slabobj->getTotalCostForConcrete(),
-  "fCost" => $slabobj->getTotalCostForFrameWork(),
+  "concreteCost" => $slabobj->getTotalCostForConcrete(),
+  "formworksCost" => $slabobj->getTotalCostForFrameWork(),
+  "reinforcementCost" => $unitRateobj->getRatesOfRainforcement()*$slabobj->getSqOfSlab(),
   "area" => $slabobj->getSqOfSlab(),
   "volume" => $slabobj->getVolOfSlab(),
-  "descriptionC" => $unitRateobj->getDecOConcrete(),
-  "descriptionF" => $unitRateobj->getDecOFrameWork(),
+  "descriptionConcrete" => $unitRateobj->getDecOConcrete(),
+  "descriptionFormworks" => $unitRateobj->getDecOFrameWork(),
   "unitC" => $unitRateobj->getRateOfConcrete(),
-  "unitF" => $unitRateobj->getRateOFrameWork(),
-  // "volume" => $slabobj->getVolOfSlab(),
-  
-  // "rainforcementBars" => $slabobj->getReinforcementQuantityForSlab(),
-  // "bindingWires" => $slabobj->getBindingWiresQuantityForSlab(),
-  // "cost" => $slabobj->getTotalCostForSlab(),
+  "unitF" => $unitRateobj->getRatesOfFormworks(),
+  "unitR" => $unitRateobj->getRatesOfRainforcement(),
 
 );
 

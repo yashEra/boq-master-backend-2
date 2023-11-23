@@ -15,21 +15,21 @@ class Foundation
 {
     private $length;
     private $width;
-    private $thickness;
+    private $height;
     private $no_of_foundation;
 
 
-    public function __construct($length, $width, $thickness, $no_of_foundation)
+    public function __construct($length, $width, $height, $no_of_foundation)
     {
         $this->length = $length;
         $this->width = $width;
-        $this->thickness = $thickness;
+        $this->height = $height;
         $this->no_of_foundation = $no_of_foundation;
     }
 
     public function getVolOfFoundation()
     {
-        $vol = ($this->length * $this->width * $this->thickness)*$this->no_of_foundation;
+        $vol = ($this->length * $this->width * $this->height)*$this->no_of_foundation;
         return $vol;
     }
 

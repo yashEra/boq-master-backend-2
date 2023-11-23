@@ -1,29 +1,62 @@
 <?php
+header("Content-Type: application/json");
 
-use RowMaterials\Doors;
-require_once '../../Classess/PartsOfConstructions/Doors.php';
+header("Access-Control-Allow-Origin: http://localhost:3000"); 
 
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+  http_response_code(204);
+  exit();
+}
+
+require_once '../../Classess/PartsOfConstructions/Foundation.php';
+
+use classes\Foundation;
+
+require_once '../../Classess/PartsOfConstructions/UnitRates.php';
+
+use RowMaterials\UnitRates;
 
 $data = json_decode(file_get_contents("php://input"));
 
-$doorTypeId = isset($_POST['doorTypeId']) ? $_POST['doorTypeId'] : null;
+$unit = $data->unit;
+$qt = $data->noOfFoundation;
 
-$doorTypeId = isset($data->doorTypeId) ? $data->doorTypeId : null;
+if($unit ==="feet"){
+
+  $length = number_format(($data->length) * 0.3048, 2);
+  $width = number_format(($data->width) * 0.3048, 2);
+  $height = number_format(($data->height) * 0.3048, 2);
+  
 
 
-// $id = $windowTypeId;
-// $doorType = $data->doorType;
-$material= $data->material;
-$quantity = $data->quantity;
+}else{
+  
+  $length = $data->length;
+  $width = $data->width;
+  $height = $data->height; 
+}
 
-$door = new Doors($doorTypeId, $material, $quantity);
+$cobj = new Foundation($length, $width, $height, $qt);
+$unitRateobj = new UnitRates();
 
-$price = $door->priceOfDoor();
-$area = $door->areaOfDoor();
+$response = array(
+  "message" => "Data received successfully",
+  "concrete" => $cobj->getTotalCostForConcrete(),
+  "reinforcement" => $cobj->getTotalCostForReinforcement(),
+  "formworks" => $cobj->getTotalCostForFrameWork(),
+  "concreteQuantity" => $cobj->getVolOfFoundation(),
+  "reinforcementQuantity" => $cobj->getVolOfFoundation(),
+  "formworksQuantity" => $cobj->getVolOfFoundation(),
+  "concreteUnitPrice" => $unitRateobj->getRatesOfConcreteOne(),
+  "reinforcementUnitPrice" => $unitRateobj->getRatesOfRainforcement(),
+  "formworksUnitPrice" => $unitRateobj->getRatesOfFormworks(),
 
-$response = array('status' => '1', 'area' => $area, 'quantity' => $quantity, 'material' => $material, 'price' => $price);
+);
+
+
+
 echo json_encode($response);
 ?>

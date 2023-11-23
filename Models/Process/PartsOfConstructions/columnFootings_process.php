@@ -26,7 +26,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 $unit = $data->unit;
 
-if($unit ==="ft"){
+if($unit ==="feet"){
 
   $length = ($data->Length)*0.3048;
   $width = ($data->Width)*0.3048;

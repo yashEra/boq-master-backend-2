@@ -21,7 +21,7 @@ $data = json_decode(file_get_contents("php://input"));
 $unit = $data->unit;
 $noOfTiebeams = $data->noOfTiebeams;
 
-if($unit ==="ft"){
+if($unit ==="feet"){
 
   $length = ($data->length)*0.3048;
   $width = ($data->width)*0.3048;
@@ -43,9 +43,9 @@ $unitRateobj = new UnitRates();
 // Process the data or perform necessary actions
 $response = array(
   "message" => "Data received successfully",
-  "concrete" => $tiebeamObj->getTotalCostForConcrete(),
-  "reinforcement" => $tiebeamObj->getTotalCostForReinforcement(),
-  "formworks" => $tiebeamObj->getTotalCostForFrameWork(),
+  "concreteCost" => $tiebeamObj->getTotalCostForConcrete(),
+  "reinforcementCost" => $tiebeamObj->getTotalCostForReinforcement(),
+  "formworksCost" => $tiebeamObj->getTotalCostForFrameWork(),
   "concreteQuantity" => $tiebeamObj->getVolOfTiebeams(),
   "reinforcementQuantity" => $tiebeamObj->getVolOfTiebeams(),
   "formworksQuantity" => $tiebeamObj->getVolOfTiebeams(),

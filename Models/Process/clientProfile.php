@@ -1,34 +1,30 @@
 <?php
-$host = "localhost";
+header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Headers: *");
+header("Content-Type: application/json");
+
+$servername = "localhost";
 $username = "root";
 $password = "";
-$database = "boq_master";
+$dbname = "boq_master";
 
-$connection = mysqli_connect($host, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    // $type = $_GET['type'];
+$architectId = $_GET['id'];
 
-    $query = "SELECT * FROM client WHERE id = $id";
+$sql = "SELECT * FROM client WHERE id = $architectId";
+$result = $conn->query($sql);
 
-    $result = mysqli_query($connection, $query);
-
-    if ($result) {
-        $professionalData = mysqli_fetch_assoc($result);
-
-        header('Content-Type: application/json');
-        echo json_encode($professionalData);
-    } else {
-        echo json_encode(['error' => 'Error fetching professional profile data']);
-    }
+if ($result->num_rows > 0) {
+    $architect = $result->fetch_assoc();
+    echo json_encode($architect);
 } else {
-    echo json_encode(['error' => 'id and type parameters are required']);
+    echo json_encode(['error' => 'Architect not found']);
 }
 
-mysqli_close($connection);
+$conn->close();
 ?>

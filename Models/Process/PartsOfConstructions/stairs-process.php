@@ -26,7 +26,7 @@ $data = json_decode(file_get_contents("php://input"));
 $unit = $data->unit;
 $noOfSteps = $data->noOfSteps;
 
-if($unit ==="ft"){
+if($unit ==="feet"){
 
   $length = ($data->length)*0.3048;
   $riser = ($data->riser)*0.3048;
@@ -55,9 +55,9 @@ $unitRateobj = new UnitRates();
 
 $response = array(
   "message" => "Data received successfully",
-  "concrete" => $stairsobj->concreteRate(),
-  "reinforcement" => $stairsobj->rainforcementRate(),
-  "formworks" => $stairsobj->formworkRate(),
+  "concreteCost" => $stairsobj->concreteRate(),
+  "reinforcementCost" => $stairsobj->rainforcementRate(),
+  "formworksCost" => $stairsobj->formworkRate(),
   "concreteQuantity" => ($stairsobj->getStairsTotVol()+$stairsobj->getStairsCaseVol()),
   "reinforcementQuantity" => ($stairsobj->getStairsTotVol()+$stairsobj->getStairsCaseVol()),
   "formworksQuantity" => $stairsobj->getStairsCaseArea(),
