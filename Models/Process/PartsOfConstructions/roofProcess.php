@@ -17,19 +17,20 @@ if ($conn->connect_error) {
 }
 
 // $input = $_POST; 
-$selectedDescription = $data->type;
-echo $selectedDescription;
+// $selectedDescription = $data->type;
+// echo $selectedDescription;
 
-$sql = "SELECT * FROM roof WHERE description = ?";
+$sql = "SELECT * FROM roof WHERE description = 'Roof Max Roofing Sheet'";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $selectedDescription);
+// $stmt->bind_param("s", "Roof Max Roofing Sheet");
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result) {
     $selectedRoof = $result->fetch_assoc();
 
-    $quantity = $input['quantity'];
+    // $quantity = $data->quantity;
+    $quantity = 100;
 
     $totalPrice = $quantity * $selectedRoof['rate'];
 
