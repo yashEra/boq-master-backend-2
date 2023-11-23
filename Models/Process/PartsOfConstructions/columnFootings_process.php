@@ -1,14 +1,9 @@
 <?php
 header("Content-Type: application/json");
-
-// Allow requests from your React app's origin
-header("Access-Control-Allow-Origin: http://localhost:3000"); // Update with your React app's URL
-
-// Allow specific headers and methods
+header("Access-Control-Allow-Origin: http://localhost:3000"); 
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 
-// Check for preflight (OPTIONS) request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
   http_response_code(204);
   exit();
@@ -45,12 +40,12 @@ $unitRateobj = new UnitRates();
 
 $response = array(
     "message" => "Data received successfully",
-    "concrete" => $cfootingobj->getTotalCostForConcrete(),
-    "reinforcement" => $cfootingobj->getTotalCostForReinforcement(),
-    "formworks" => $cfootingobj->getTotalCostForFrameWork(),
-    "concreteQuantity" => $cfootingobj->getVolOfFootings(),
-    "reinforcementQuantity" => $cfootingobj->getVolOfFootings(),
-    "formworksQuantity" => $cfootingobj->getVolOfFootings(),
+    "concrete" => round($cfootingobj->getTotalCostForConcrete(), 2),
+    "reinforcement" => round($cfootingobj->getTotalCostForReinforcement(), 2),
+    "formworks" => round($cfootingobj->getTotalCostForFrameWork(), 2),
+    "concreteQuantity" => round($cfootingobj->getVolOfFootings(), 2),
+    "reinforcementQuantity" => round($cfootingobj->getVolOfFootings(), 2),
+    "formworksQuantity" => round($cfootingobj->getVolOfFootings(), 2),    
     "concreteUnitPrice" => $unitRateobj->getRatesOfConcreteOne(),
     "reinforcementUnitPrice" => $unitRateobj->getRatesOfRainforcement(),
     "formworksUnitPrice" => $unitRateobj->getRatesOfFormworks(),

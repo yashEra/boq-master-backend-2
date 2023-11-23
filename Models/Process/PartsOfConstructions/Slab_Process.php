@@ -44,12 +44,11 @@ $slabobj = new Slabs($length, $width, $thickness);
 $unitRateobj = new UnitRates();
 
 $response = array(
-  "message" => "Data received successfully",
-  "concreteCost" => $slabobj->getTotalCostForConcrete(),
-  "formworksCost" => $slabobj->getTotalCostForFrameWork(),
-  "reinforcementCost" => $unitRateobj->getRatesOfRainforcement()*$slabobj->getSqOfSlab(),
-  "area" => $slabobj->getSqOfSlab(),
-  "volume" => $slabobj->getVolOfSlab(),
+  "concreteCost" => round($slabobj->getTotalCostForConcrete(), 2),
+  "formworksCost" => round($slabobj->getTotalCostForFrameWork(), 2),
+  "reinforcementCost" => round($unitRateobj->getRatesOfRainforcement() * $slabobj->getSqOfSlab(), 2),
+  "area" => round($slabobj->getSqOfSlab(), 2),
+  "volume" => round($slabobj->getVolOfSlab(), 2),  
   "descriptionConcrete" => $unitRateobj->getDecOConcrete(),
   "descriptionFormworks" => $unitRateobj->getDecOFrameWork(),
   "unitC" => $unitRateobj->getRateOfConcrete(),

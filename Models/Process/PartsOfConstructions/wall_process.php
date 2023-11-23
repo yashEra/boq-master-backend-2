@@ -51,9 +51,9 @@ $response = array(
   "message" => "Data received successfully",
   "description" => $wallobj->getWallDec(),
   "unitRate" => $ratesobj->getRateOfwall($brickTypes, $type),
-  "area" =>$wallobj->getWallArea(),
-  "wallFinishingCost" =>$wallobj->getWallArea()*$fwallUnitRate,
-  "blockworksCost" => $wallobj->getWallCost(),
+  "area" => round($wallobj->getWallArea(), 2),
+  "wallFinishingCost" => round($wallobj->getWallArea() * $fwallUnitRate, 2),
+  "blockworksCost" => round($wallobj->getWallCost(), 2),
 );
 
 
