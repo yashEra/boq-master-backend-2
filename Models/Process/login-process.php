@@ -18,7 +18,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = isset($_POST["password"]) ? $_POST["password"] : '';
 
     try {
-        // Check in the professional table
         $stmt = $conn->prepare("SELECT id, password, 'professional' as accountType FROM professional WHERE userName = :userName");
         $stmt->bindParam(':userName', $userName);
         $stmt->execute();
@@ -27,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($result && password_verify($password, $result['password'])) {
             $response = ['success' => true, 'id' => $result['id'], 'accountType' => $result['accountType'], 'type' => 'professional'];
         } else {
-            // Check in the client table if not found in the professional table
             $stmt = $conn->prepare("SELECT id, password, 'client' as accountType FROM client WHERE userName = :userName");
             $stmt->bindParam(':userName', $userName);
             $stmt->execute();

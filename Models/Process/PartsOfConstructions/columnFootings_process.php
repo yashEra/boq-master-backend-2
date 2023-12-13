@@ -23,8 +23,8 @@ $unit = $data->unit;
 
 if($unit ==="feet"){
 
-  $length = ($data->Length)*0.3048;
-  $width = ($data->Width)*0.3048;
+  $length = ($data->length)*0.3048;
+  $width = ($data->width)*0.3048;
   $height = ($data->height)*0.3048;
 
 
